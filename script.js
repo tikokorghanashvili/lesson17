@@ -15,6 +15,7 @@ function ajax(url, callback){
         let data=JSON.parse(requist.responseText);
         callback(data);
     });
+
     requist.send();
 }
 ajax('https://jsonplaceholder.typicode.com/posts', function(data){
@@ -41,12 +42,23 @@ function createPost(item){
     let h3tag=document.createElement('h3');
     h3tag.innerText=item.title;
 
+    let deletebtn=document.createElement('button');
+    deletebtn.innerText='delete post';
+    deletebtn.setAttribute('data-id', item.id);
+
     divwraper.appendChild(h2tag);
     divwraper.appendChild(h3tag);
+    divwraper.append(deletebtn);
 
     divwraper.addEventListener('click',function(event){
         let id =event.target.getAttribute('data-id');
         openoverlay(id);
+    })
+
+    deletebtn.addEventListener('click',function(event){
+        event.stopPropagation();
+        let id=event.target.getAttribute('data-id');
+        deletePost(id);
     })
 
     mainWraperPost.appendChild(divwraper);
@@ -57,10 +69,31 @@ function createPost(item){
 function openoverlay(id){
     overlaycontent.classList.add('active');
     let url=`https://jsonplaceholder.typicode.com/posts/${id}`;
+
     ajax(url,function(data){
-        console.log(data);
+        overlayfunction(data);
     })
     console.log(id);
+}
+
+function deletePost(id){
+    let url=`https://jsonplaceholder.typicode.com/posts/${id}`;
+    fetch(url,{
+        method:'delete'
+    })
+}
+
+function overlayfunction(item){
+    let titlepost=document.createElement('h3');
+    titlepost.innerText=item.title;
+
+    let p=Document.createElement('p');
+    p.innerText=item.body;
+
+    content.appendChild(titlepost);
+    content.appendChild(p);
+    content.innerHTML=" ";
+
 }
 
 closeoverlay.addEventListener('click',function(){

@@ -12,6 +12,9 @@
     background-color: lightseagreen ;
     opacity: 70%;
     display: none;
+    color: white;
+    text-align: center;
+    font-size: 35px;
 }
 .overlay.active{
     display: block;

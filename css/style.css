@@ -55,3 +55,7 @@
 .overlay-add.active-add{
     display: block;
 } 
+.form{
+    display: flex;
+    margin-top: 50px;
+}

@@ -3,6 +3,9 @@ let mainWraperPost=document.getElementById('post-block');
 let overlaycontent=document.getElementById('overlay');
 let closeoverlay=document.getElementById('close');
 let content=document.getElementById('content');
+let addbutton=document.getElementById('add');
+let postoverlay=document.getElementById('postoverlay');
+let form=document.getElementById('form');
 
 
 // https://jsonplaceholder.typicode.com/posts
@@ -98,4 +101,30 @@ function overlayfunction(item){
 
 closeoverlay.addEventListener('click',function(){
     overlaycontent.classList.remove('active');
+})
+
+addbutton.addEventListener('click',function(){
+    postoverlay.classList.add('active-add');
+})
+
+form.addEventListener('submit',function(event){
+    event.preventDefault();
+    console.log(event.target);
+
+    let formdata={
+        title:event.target[0].value;
+        description:event.target[1].value;
+    }
+
+    fetch('https://jsonplaceholder.typicode.com/posts', {
+        method: 'POST',
+        body: JSON.stringif(formdata),
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+        },
+        })
+    .then((response) => response.json())
+    .then((json) => console.log(json));
+        postoverlay.classList.remove('active-add');
+        console.log(formdata);
 })
